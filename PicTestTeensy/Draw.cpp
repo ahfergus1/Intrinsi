@@ -4,7 +4,8 @@
 #include <LCD.h>
 #include <SD.h>
 #include <SPI.h>
-#include <Streaming.h>
+
+#define MAX_NLENGTH 10
 
 void Draw::DispLogo()
 {
