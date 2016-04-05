@@ -64,7 +64,6 @@ void setup()
   SPI.begin();
 
   Tft.lcd_init();
-  Serial.println("SD OK!");
   delay(100);
   StartUp();
 }
@@ -74,26 +73,27 @@ void loop()
   draw.DispMenu();
   delay(1000);
   draw.ClrMenu();
-  delay(1000);
+  
   draw.DispPinchPrompt();
   delay(1000);
   draw.ClrPinchPrompt();
-  delay(1000);
+  
   for (int i = 0; i < 10; i++) {
     draw.DispPinchArea(i);
     delay(1000);
     draw.ClrPinchArea(i);
-    delay(1000);
+  
   }
   draw.DispResult();
   delay(1000);
   draw.ClrResult();
-  delay(1000);
+  
   draw.DispProbe();
   delay(1000);
   draw.ClrProbe();
-  delay(1000);
+  
   DispStream();
+  delay(1000);
   ClrStream();
 }
 
@@ -142,9 +142,6 @@ void bmpdraw(File f, int x, int y)
       __LCD_CS_SET();
     }
   }
-
-  Serial.print(millis() - time, DEC);
-  Serial.println(" ms");
 }
 
 boolean bmpReadHeader(File f)
@@ -160,21 +157,14 @@ boolean bmpReadHeader(File f)
 
   // read file size
   tmp = read32(f);
-  Serial.print("size 0x");
-  Serial.println(tmp, HEX);
 
   // read and ignore creator bytes
   read32(f);
 
   __Gnbmp_image_offset = read32(f);
-  Serial.print("offset ");
-  Serial.println(__Gnbmp_image_offset, DEC);
 
   // read DIB header
   tmp = read32(f);
-  Serial.print("header size ");
-  Serial.println(tmp, DEC);
-
   int bmp_width = read32(f);
   int bmp_height = read32(f);
 
@@ -186,16 +176,11 @@ boolean bmpReadHeader(File f)
     return false;
 
   bmpDepth = read16(f);
-  Serial.print("bitdepth ");
-  Serial.println(bmpDepth, DEC);
 
   if (read32(f) != 0) {
     // compression not supported!
     return false;
   }
-
-  Serial.print("compression ");
-  Serial.println(tmp, DEC);
 
   return true;
 }
@@ -230,68 +215,60 @@ uint32_t read32(File f)
 }
 
 
-void StartUp() {
+bool StartUp() {
   // for(unsigned char i=0; i<__Gnfile_num; i++) {
   bmpFile = SD.open(__Gsbmp_files[3]);
   if (! bmpFile) {
-    Serial.println("didnt find image");
-    while (1);
+    return false;
   }
 
   if (! bmpReadHeader(bmpFile)) {
-    Serial.println("bad bmp");
-    return;
+    return false;
   }
   bmpdraw(bmpFile, 0, 0);
   bmpFile.close();
-  delay(1000);
-  delay(1000);
-  delay(1000);
-  delay(1000);
-  //    }
+  delay(4000);
 
   bmpFile = SD.open(__Gsbmp_files[0]);
   if (! bmpFile) {
-    Serial.println("didnt find image");
-    while (1);
+    return false;
   }
 
   if (! bmpReadHeader(bmpFile)) {
-    Serial.println("bad bmp");
-    return;
+    return false;
   }
   bmpdraw(bmpFile, 0, 0);
   bmpFile.close();
+
+  return true;
 }
 
-void DispStream() {
+bool DispStream() {
   bmpFile = SD.open(__Gsbmp_files[1]);
   if (! bmpFile) {
-    Serial.println("didnt find image");
-    while (1);
+    return false;
   }
 
   if (! bmpReadHeader(bmpFile)) {
-    Serial.println("bad bmp");
-    return;
+    return false;
   }
   bmpdraw(bmpFile, 0, 0);
   bmpFile.close();
-  delay(1000);
+  
+  return true;
 }
 
-void ClrStream() {
+bool ClrStream() {
   bmpFile = SD.open(__Gsbmp_files[2]);
   if (! bmpFile) {
-    Serial.println("didnt find image");
-    while (1);
+    return false;
   }
 
   if (! bmpReadHeader(bmpFile)) {
-    Serial.println("bad bmp");
-    return;
+    return false;
   }
   bmpdraw(bmpFile, 0, 0);
   bmpFile.close();
-  delay(1000);
+  
+  return true;
 }
