@@ -49,87 +49,87 @@ Tft.lcd_display_string(40, 140, (const uint8_t *)"Please Squeeze Probe", FONT_16
 
 void Draw::DispPinchArea(int x){
 if (x == 0){
-Tft.lcd_display_string(10, 155, (const uint8_t *)"Between Little and Ring Finger", FONT_1608, MAGENTA);
-Tft.lcd_display_string(30, 170, (const uint8_t *)"On Your Left Hand", FONT_1608, MAGENTA);
+Tft.lcd_display_string(10, 155, (const uint8_t *)"Between Little & Ring Finger", FONT_1608, MAGENTA);
+Tft.lcd_display_string(50, 170, (const uint8_t *)"On Your Left Hand", FONT_1608, MAGENTA);
 }
 if (x == 1){
-Tft.lcd_display_string(10, 155, (const uint8_t *)"Between Ring and Middle Finger", FONT_1608, MAGENTA);
-Tft.lcd_display_string(30, 170, (const uint8_t *)"On Your Left Hand", FONT_1608, MAGENTA);
+Tft.lcd_display_string(10, 155, (const uint8_t *)"Between Ring & Middle Finger", FONT_1608, MAGENTA);
+Tft.lcd_display_string(50, 170, (const uint8_t *)"On Your Left Hand", FONT_1608, MAGENTA);
 }
 if (x == 2){
-Tft.lcd_display_string(10, 155, (const uint8_t *)"Between Middle and Index Finger", FONT_1608, MAGENTA);
-Tft.lcd_display_string(30, 170, (const uint8_t *)"On Your Left Hand", FONT_1608, MAGENTA);
+Tft.lcd_display_string(0, 155, (const uint8_t *)"Between Middle & Index Finger", FONT_1608, MAGENTA);
+Tft.lcd_display_string(50, 170, (const uint8_t *)"On Your Left Hand", FONT_1608, MAGENTA);
 }
 if (x == 3){
-Tft.lcd_display_string(10, 155, (const uint8_t *)"Between Index Finger and Thumb", FONT_1608, MAGENTA);
-Tft.lcd_display_string(30, 170, (const uint8_t *)"On Your Left Hand", FONT_1608, MAGENTA);
+Tft.lcd_display_string(10, 155, (const uint8_t *)"Between Index Finger & Thumb", FONT_1608, MAGENTA);
+Tft.lcd_display_string(50, 170, (const uint8_t *)"On Your Left Hand", FONT_1608, MAGENTA);
 }
 if (x == 4){
-Tft.lcd_display_string(10, 155, (const uint8_t *)"Between Thumb and Index Finger", FONT_1608, MAGENTA);
-Tft.lcd_display_string(30, 170, (const uint8_t *)"On Your Right Hand", FONT_1608, MAGENTA);
+Tft.lcd_display_string(10, 155, (const uint8_t *)"Between Thumb & Index Finger", FONT_1608, MAGENTA);
+Tft.lcd_display_string(50, 170, (const uint8_t *)"On Your Right Hand", FONT_1608, MAGENTA);
 }
 if (x == 5){
-Tft.lcd_display_string(10, 155, (const uint8_t *)"Between Index and Middle Finger", FONT_1608, MAGENTA);
-Tft.lcd_display_string(30, 170, (const uint8_t *)"On Your Right Hand", FONT_1608, MAGENTA);
+Tft.lcd_display_string(0, 155, (const uint8_t *)"Between Index & Middle Finger", FONT_1608, MAGENTA);
+Tft.lcd_display_string(50, 170, (const uint8_t *)"On Your Right Hand", FONT_1608, MAGENTA);
 }
 if (x == 6){
-Tft.lcd_display_string(10, 155, (const uint8_t *)"Between Middle and Ring Finger", FONT_1608, MAGENTA);
-Tft.lcd_display_string(30, 170, (const uint8_t *)"On Your Right Hand", FONT_1608, MAGENTA);
+Tft.lcd_display_string(10, 155, (const uint8_t *)"Between Middle & Ring Finger", FONT_1608, MAGENTA);
+Tft.lcd_display_string(50, 170, (const uint8_t *)"On Your Right Hand", FONT_1608, MAGENTA);
 }
 if (x == 7){
-Tft.lcd_display_string(10, 155, (const uint8_t *)"Between Ring and Little Finger", FONT_1608, MAGENTA);
-Tft.lcd_display_string(30, 170, (const uint8_t *)"On Your Right Hand", FONT_1608, MAGENTA);
+Tft.lcd_display_string(10, 155, (const uint8_t *)"Between Ring & Little Finger", FONT_1608, MAGENTA);
+Tft.lcd_display_string(50, 170, (const uint8_t *)"On Your Right Hand", FONT_1608, MAGENTA);
 }
 if (x == 8){
-Tft.lcd_display_string(10, 155, (const uint8_t *)"Between Your Thumbs", FONT_1608, MAGENTA);
-Tft.lcd_display_string(30, 170, (const uint8_t *)"On Both Hands", FONT_1608, MAGENTA);
+Tft.lcd_display_string(30, 155, (const uint8_t *)"Between Your Thumbs", FONT_1608, MAGENTA);
+Tft.lcd_display_string(70, 170, (const uint8_t *)"On Both Hands", FONT_1608, MAGENTA);
 }
 if (x == 9){
-Tft.lcd_display_string(10, 155, (const uint8_t *)"Between Your Little Fingers", FONT_1608, MAGENTA);
-Tft.lcd_display_string(30, 170, (const uint8_t *)"On Both Hands", FONT_1608, MAGENTA);
+Tft.lcd_display_string(20, 155, (const uint8_t *)"Between Your Little Fingers", FONT_1608, MAGENTA);
+Tft.lcd_display_string(70, 170, (const uint8_t *)"On Both Hands", FONT_1608, MAGENTA);
 }
 }
 
 void Draw::ClrPinchArea(int x){
 if (x == 0){
-Tft.lcd_display_string(10, 155, (const uint8_t *)"Between Little and Ring Finger", FONT_1608, WHITE);
-Tft.lcd_display_string(30, 170, (const uint8_t *)"On Your Left Hand", FONT_1608, WHITE);
+Tft.lcd_display_string(10, 155, (const uint8_t *)"Between Little & Ring Finger", FONT_1608, WHITE);
+Tft.lcd_display_string(50, 170, (const uint8_t *)"On Your Left Hand", FONT_1608, WHITE);
 }
 if (x == 1){
-Tft.lcd_display_string(10, 155, (const uint8_t *)"Between Ring and Middle Finger", FONT_1608, WHITE);
-Tft.lcd_display_string(30, 170, (const uint8_t *)"On Your Left Hand", FONT_1608, WHITE);
+Tft.lcd_display_string(10, 155, (const uint8_t *)"Between Ring & Middle Finger", FONT_1608, WHITE);
+Tft.lcd_display_string(50, 170, (const uint8_t *)"On Your Left Hand", FONT_1608, WHITE);
 }
 if (x == 2){
-Tft.lcd_display_string(10, 155, (const uint8_t *)"Between Middle and Index Finger", FONT_1608, WHITE);
-Tft.lcd_display_string(30, 170, (const uint8_t *)"On Your Left Hand", FONT_1608, WHITE);
+Tft.lcd_display_string(0, 155, (const uint8_t *)"Between Middle & Index Finger", FONT_1608, WHITE);
+Tft.lcd_display_string(50, 170, (const uint8_t *)"On Your Left Hand", FONT_1608, WHITE);
 }
 if (x == 3){
-Tft.lcd_display_string(10, 155, (const uint8_t *)"Between Index Finger and Thumb", FONT_1608, WHITE);
-Tft.lcd_display_string(30, 170, (const uint8_t *)"On Your Left Hand", FONT_1608, WHITE);
+Tft.lcd_display_string(10, 155, (const uint8_t *)"Between Index Finger & Thumb", FONT_1608, WHITE);
+Tft.lcd_display_string(50, 170, (const uint8_t *)"On Your Left Hand", FONT_1608, WHITE);
 }
 if (x == 4){
-Tft.lcd_display_string(10, 155, (const uint8_t *)"Between Thumb and Index Finger", FONT_1608, WHITE);
-Tft.lcd_display_string(30, 170, (const uint8_t *)"On Your Right Hand", FONT_1608, WHITE);
+Tft.lcd_display_string(10, 155, (const uint8_t *)"Between Thumb & Index Finger", FONT_1608, WHITE);
+Tft.lcd_display_string(50, 170, (const uint8_t *)"On Your Right Hand", FONT_1608, WHITE);
 }
 if (x == 5){
-Tft.lcd_display_string(10, 155, (const uint8_t *)"Between Index and Middle Finger", FONT_1608, WHITE);
-Tft.lcd_display_string(30, 170, (const uint8_t *)"On Your Right Hand", FONT_1608, WHITE);
+Tft.lcd_display_string(0, 155, (const uint8_t *)"Between Index & Middle Finger", FONT_1608, WHITE);
+Tft.lcd_display_string(50, 170, (const uint8_t *)"On Your Right Hand", FONT_1608, WHITE);
 }
 if (x == 6){
-Tft.lcd_display_string(10, 155, (const uint8_t *)"Between Middle and Ring Finger", FONT_1608, WHITE);
-Tft.lcd_display_string(30, 170, (const uint8_t *)"On Your Right Hand", FONT_1608, WHITE);
+Tft.lcd_display_string(10, 155, (const uint8_t *)"Between Middle & Ring Finger", FONT_1608, WHITE);
+Tft.lcd_display_string(50, 170, (const uint8_t *)"On Your Right Hand", FONT_1608, WHITE);
 }
 if (x == 7){
-Tft.lcd_display_string(10, 155, (const uint8_t *)"Between Ring and Little Finger", FONT_1608, WHITE);
-Tft.lcd_display_string(30, 170, (const uint8_t *)"On Your Right Hand", FONT_1608, WHITE);
+Tft.lcd_display_string(10, 155, (const uint8_t *)"Between Ring & Little Finger", FONT_1608, WHITE);
+Tft.lcd_display_string(50, 170, (const uint8_t *)"On Your Right Hand", FONT_1608, WHITE);
 }
 if (x == 8){
-Tft.lcd_display_string(10, 155, (const uint8_t *)"Between Your Thumbs", FONT_1608, WHITE);
-Tft.lcd_display_string(30, 170, (const uint8_t *)"On Both Hands", FONT_1608, WHITE);
+Tft.lcd_display_string(30, 155, (const uint8_t *)"Between Your Thumbs", FONT_1608, WHITE);
+Tft.lcd_display_string(70, 170, (const uint8_t *)"On Both Hands", FONT_1608, WHITE);
 }
 if (x == 9){
-Tft.lcd_display_string(10, 155, (const uint8_t *)"Between Your Little Fingers", FONT_1608, WHITE);
-Tft.lcd_display_string(30, 170, (const uint8_t *)"On Both Hands", FONT_1608, WHITE);
+Tft.lcd_display_string(20, 155, (const uint8_t *)"Between Your Little Fingers", FONT_1608, WHITE);
+Tft.lcd_display_string(70, 170, (const uint8_t *)"On Both Hands", FONT_1608, WHITE);
 }
 }
 
