@@ -41,9 +41,14 @@ const int PIN_LCD_CS = 10;
 
 File bmpFile;
 
+int state;
+const int STATE_NULL = 0;
+const int STATE_HOME = 1;
+
 void setup()
 {
-  Serial.begin(9600);
+  // Start serial
+  Serial.begin(115200);
 
   // Drive all chip selects high
   pinMode(PIN_TP_CS, OUTPUT);
@@ -53,45 +58,52 @@ void setup()
   pinMode(PIN_LCD_CS, OUTPUT);
   digitalWrite(PIN_LCD_CS, HIGH);
 
-  if (!SD.begin(PIN_SD_CS))  {
-    Serial.println("SD CONNECTION FAILURE!");
-    while (1);                              // init fail, die here
+  // Start SD Card
+  if (!SD.begin(PIN_SD_CS)) {
+    while (1)
+      Serial.println("SD CONNECTION FAILURE!");
   }
 
+  // Get SPI going pretty fast (12 MHz)
   SPI.setDataMode(SPI_MODE3);
   SPI.setBitOrder(MSBFIRST);
   SPI.setClockDivider(SPI_CLOCK_DIV2);
   SPI.begin();
 
+  // Initialize the LCD
   Tft.lcd_init();
   delay(100);
   StartUp();
+
+  // Initialize state
+  state = STATE_NULL;
 }
 
 void loop()
 {
+  
   draw.DispMenu();
   delay(1000);
   draw.ClrMenu();
-  
+
   draw.DispPinchPrompt();
   delay(1000);
   draw.ClrPinchPrompt();
-  
+
   for (int i = 0; i < 10; i++) {
     draw.DispPinchArea(i);
     delay(1000);
     draw.ClrPinchArea(i);
-  
   }
+  
   draw.DispResult();
   delay(1000);
   draw.ClrResult();
-  
+
   draw.DispProbe();
   delay(1000);
   draw.ClrProbe();
-  
+
   DispStream();
   delay(1000);
   ClrStream();
@@ -254,7 +266,7 @@ bool DispStream() {
   }
   bmpdraw(bmpFile, 0, 0);
   bmpFile.close();
-  
+
   return true;
 }
 
@@ -269,6 +281,6 @@ bool ClrStream() {
   }
   bmpdraw(bmpFile, 0, 0);
   bmpFile.close();
-  
+
   return true;
 }
