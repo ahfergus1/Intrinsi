@@ -6,24 +6,22 @@
 
 class Draw
 {
-	public:
-	void DispLogo(); // Display IntrinsiForce Center of Screen
-	void DispMenu(); // Display Main Menu
-	void ClrMenu(); // Clear the Menu
-	void DispPinchPrompt(); // Display ready to pinch
-	void ClrPinchPrompt(); // Clear ready to pinch
-	void DispPinchArea(int x); // Display which fingers to pinch together
-	void ClrPinchArea(int x); // clear which ....
-	void DispResult(int a, int u); //Display number a, u selects unit (1 - N, else lbf)
-	void ClrResult(int a, int u); //clear previous result
-	void DispProbe(int b); //show probe reading
-	void ClrProbe(int b); //clear probe reading
-	void StartTone();//Play tone when starting
-	void EndTone();//Play tone when done
-
-
-//	private:
-//	void DrawMenu(uint16_t colour);
+public:
+  void init(); // Start display driver
+  // void logo(); // Display IntrinsiForce Center of Screen
+  void menu(uint16_t colour); // Display Main Menu
+  void pinchPrompt(uint16_t colour); // Display ready to pinch
+  void pinchArea(int idx, uint16_t colour); // Display which fingers to pinch together
+  void measurePrompt(uint16_t colour); // Display prompt to pinch
+  void uploadPrompt(uint16_t colour); // Display frozen warning
+  //void result(int a, int u); //Display number a, u selects unit (1 - N, else lbf)
+  void sessionReading(String s, uint16_t colour); // Displays "%s" below prompt to pinch
+  void probe(int b, uint16_t colour); //show probe reading
+  // void startTone();//Play tone when starting
+  // void endTone();//Play tone when done
+private:
+  int centerX(int len);
+  void centerStr(int y, const char* str, uint16_t colour);
 };
 
 #endif

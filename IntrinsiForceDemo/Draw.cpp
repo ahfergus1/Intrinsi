@@ -1,190 +1,169 @@
 //Draw.cpp
 #include "Arduino.h"
 #include "Draw.h"
-#include <LCD.h>
+#include "HX8347D/LCD.h"  // LCD driver
 #include <SD.h>
 #include <SPI.h>
 
 #define MAX_NLENGTH  10
 
-void Draw::DispLogo()
+void Draw::init()
 {
-  Tft.lcd_display_string(68, 145, (const uint8_t *)"IntrinsiForce", FONT_1608, BLACK);
-  delay(2000);
-  Tft.lcd_display_string(68, 145, (const uint8_t *)"IntrinsiForce", FONT_1608, WHITE);
+  Tft.lcd_init();
 }
 
-void Draw::DispMenu()
+// void Draw::logo()
+// {
+//   Tft.lcd_display_string(68, 145, (const uint8_t *)"IntrinsiForce", FONT_1608, BLACK);
+//   delay(2000);
+//   Tft.lcd_display_string(68, 145, (const uint8_t *)"IntrinsiForce", FONT_1608, WHITE);
+// }
+
+void Draw::menu(uint16_t colour)
 {
-  Tft.lcd_display_string(80,  75, (const uint8_t *)"Menu", FONT_1608, BLACK);
-  Tft.lcd_display_string(25,  90, (const uint8_t *)"------------------------", FONT_1608, BLACK);
-  Tft.lcd_display_string(35, 105, (const uint8_t *)"1. New Session", FONT_1608, BLACK);
-  Tft.lcd_display_string(35, 120, (const uint8_t *)"2. Session History", FONT_1608, BLACK);
-  Tft.lcd_display_string(35, 135, (const uint8_t *)"3. New Patient", FONT_1608, BLACK);
-  Tft.lcd_display_string(35, 150, (const uint8_t *)"4. Probe Calibration", FONT_1608, BLACK);
-  Tft.lcd_display_string(35, 165, (const uint8_t *)"5. Bluetooth Streamer", FONT_1608, BLACK);
-  Tft.lcd_display_string(25, 180, (const uint8_t *)"------------------------", FONT_1608, BLACK);
+  // Tft.lcd_display_string(80,  75, (const uint8_t *)"Menu", FONT_1608, colour);
+  centerStr(75, "Main Menu", colour);
+  // Tft.lcd_display_string(25,  90, (const uint8_t *)"------------------------", FONT_1608, colour);
+  centerStr(90, "------------------------", colour);
+  Tft.lcd_display_string(35, 105, (const uint8_t *)"1. New Session", FONT_1608, colour);
+  Tft.lcd_display_string(35, 120, (const uint8_t *)"X. New Patient", FONT_1608, colour);
+  Tft.lcd_display_string(35, 135, (const uint8_t *)"3. Measure", FONT_1608, colour);
+  Tft.lcd_display_string(35, 150, (const uint8_t *)"X. Probe Calibration", FONT_1608, colour);
+  Tft.lcd_display_string(35, 165, (const uint8_t *)"5. Upload", FONT_1608, colour);
+  centerStr(180, "------------------------", colour);
 }
 
-void Draw::ClrMenu()
+void Draw::pinchPrompt(uint16_t colour)
 {
-  Tft.lcd_display_string(80,  75, (const uint8_t *)"Menu", FONT_1608, WHITE);
-  Tft.lcd_display_string(25,  90, (const uint8_t *)"------------------------", FONT_1608, WHITE);
-  Tft.lcd_display_string(35, 105, (const uint8_t *)"1. New Session", FONT_1608, WHITE);
-  Tft.lcd_display_string(35, 120, (const uint8_t *)"2. Session History", FONT_1608, WHITE);
-  Tft.lcd_display_string(35, 135, (const uint8_t *)"3. New Patient", FONT_1608, WHITE);
-  Tft.lcd_display_string(35, 150, (const uint8_t *)"4. Probe Calibration", FONT_1608, WHITE);
-  Tft.lcd_display_string(35, 165, (const uint8_t *)"5. Bluetooth Streamer", FONT_1608, WHITE);
-  Tft.lcd_display_string(25, 180, (const uint8_t *)"------------------------", FONT_1608, WHITE);
+  centerStr(45, "------------------------", colour);
+  Tft.lcd_display_string(35, 60, (const uint8_t*)"1.", FONT_1608, colour);
+  // Depends on subpage...
+  Tft.lcd_display_string(35, 75, (const uint8_t*)"2.", FONT_1608, colour);
+  centerStr(75, "Start", colour);
+  Tft.lcd_display_string(35, 90, (const uint8_t*)"3.", FONT_1608, colour);
+  centerStr(90, "Toggle Units", colour);
+  Tft.lcd_display_string(35, 105, (const uint8_t*)"4.", FONT_1608, colour);
+  centerStr(105, "Main Menu", colour);
+  centerStr(120, "------------------------", colour);
+  Tft.lcd_display_string(centerX(20), 150, (const uint8_t *)"Please Squeeze Probe", FONT_1608, colour);
 }
 
-void Draw::DispPinchPrompt()
+void Draw::pinchArea(int idx, uint16_t colour) {
+  if (idx != 9)
+    centerStr(60, "Next", colour);
+  else 
+    centerStr(60, "Finish", colour);
+
+  if (idx == 0) {
+    centerStr(165, "Between Little & Ring Finger", colour);
+    centerStr(180, "On Your Left Hand", colour);
+  }
+  if (idx == 1) {
+    centerStr(165, "Between Ring & Middle Finger", colour);
+    centerStr(180, "On Your Left Hand", colour);
+  }
+  if (idx == 2) {
+    centerStr(165, "Between Middle & Index Finger", colour);
+    centerStr(180, "On Your Left Hand", colour);
+  }
+  if (idx == 3) {
+    centerStr(165, "Between Index Finger & Thumb", colour);
+    centerStr(180, "On Your Left Hand", colour);
+  }
+  if (idx == 4) {
+    centerStr(165, "Between Thumb & Index Finger", colour);
+    centerStr(180, "On Your Right Hand", colour);
+  }
+  if (idx == 5) {
+    centerStr(165, "Between Index & Middle Finger", colour);
+    centerStr(180, "On Your Right Hand", colour);
+  }
+  if (idx == 6) {
+    centerStr(165, "Between Middle & Ring Finger", colour);
+    centerStr(180, "On Your Right Hand", colour);
+  }
+  if (idx == 7) {
+    centerStr(165, "Between Ring & Little Finger", colour);
+    centerStr(180, "On Your Right Hand", colour);
+  }
+  if (idx == 8) {
+    centerStr(165, "Between Your Thumbs", colour);
+    centerStr(180, "On Both Hands", colour);
+  }
+  if (idx == 9) {
+    centerStr(165, "Between Your Little Fingers", colour);
+    centerStr(180, "On Both Hands", colour);
+  }
+}
+
+void Draw::measurePrompt(uint16_t colour)
 {
-  Tft.lcd_display_string(40, 140, (const uint8_t *)"Please Squeeze Probe", FONT_1608, BLACK);
+  centerStr(45, "------------------------", colour);
+  Tft.lcd_display_string(35, 60, (const uint8_t*)"1.", FONT_1608, colour);
+  centerStr(60, "Start", colour);
+  Tft.lcd_display_string(35, 75, (const uint8_t*)"2.", FONT_1608, colour);
+  centerStr(75, "Toggle Units", colour);
+  Tft.lcd_display_string(35, 90, (const uint8_t*)"3.", FONT_1608, colour);
+  centerStr(90, "Main Menu", colour);
+  centerStr(105, "------------------------", colour);
+  Tft.lcd_display_string(centerX(20), 150, (const uint8_t *)"Please Squeeze Probe", FONT_1608, colour);
 }
 
-void Draw::ClrPinchPrompt()
+void Draw::uploadPrompt(uint16_t colour)
 {
-  Tft.lcd_display_string(40, 140, (const uint8_t *)"Please Squeeze Probe", FONT_1608, WHITE);
+  centerStr(45, "------------------------", colour);
+  centerStr(60, "Frozen when uploading", colour);
+  Tft.lcd_display_string(35, 75, (const uint8_t*)"1.", FONT_1608, colour);
+  centerStr(75, "Main Menu", colour);
+  centerStr(90, "------------------------", colour);
 }
 
-void Draw::DispPinchArea(int x) {
-  if (x == 0) {
-    Tft.lcd_display_string(10, 155, (const uint8_t *)"Between Little & Ring Finger", FONT_1608, BLACK);
-    Tft.lcd_display_string(50, 170, (const uint8_t *)"On Your Left Hand", FONT_1608, BLACK);
-  }
-  if (x == 1) {
-    Tft.lcd_display_string(10, 155, (const uint8_t *)"Between Ring & Middle Finger", FONT_1608, BLACK);
-    Tft.lcd_display_string(50, 170, (const uint8_t *)"On Your Left Hand", FONT_1608, BLACK);
-  }
-  if (x == 2) {
-    Tft.lcd_display_string(0, 155, (const uint8_t *)"Between Middle & Index Finger", FONT_1608, BLACK);
-    Tft.lcd_display_string(50, 170, (const uint8_t *)"On Your Left Hand", FONT_1608, BLACK);
-  }
-  if (x == 3) {
-    Tft.lcd_display_string(10, 155, (const uint8_t *)"Between Index Finger & Thumb", FONT_1608, BLACK);
-    Tft.lcd_display_string(50, 170, (const uint8_t *)"On Your Left Hand", FONT_1608, BLACK);
-  }
-  if (x == 4) {
-    Tft.lcd_display_string(10, 155, (const uint8_t *)"Between Thumb & Index Finger", FONT_1608, BLACK);
-    Tft.lcd_display_string(50, 170, (const uint8_t *)"On Your Right Hand", FONT_1608, BLACK);
-  }
-  if (x == 5) {
-    Tft.lcd_display_string(0, 155, (const uint8_t *)"Between Index & Middle Finger", FONT_1608, BLACK);
-    Tft.lcd_display_string(50, 170, (const uint8_t *)"On Your Right Hand", FONT_1608, BLACK);
-  }
-  if (x == 6) {
-    Tft.lcd_display_string(10, 155, (const uint8_t *)"Between Middle & Ring Finger", FONT_1608, BLACK);
-    Tft.lcd_display_string(50, 170, (const uint8_t *)"On Your Right Hand", FONT_1608, BLACK);
-  }
-  if (x == 7) {
-    Tft.lcd_display_string(10, 155, (const uint8_t *)"Between Ring & Little Finger", FONT_1608, BLACK);
-    Tft.lcd_display_string(50, 170, (const uint8_t *)"On Your Right Hand", FONT_1608, BLACK);
-  }
-  if (x == 8) {
-    Tft.lcd_display_string(30, 155, (const uint8_t *)"Between Your Thumbs", FONT_1608, BLACK);
-    Tft.lcd_display_string(70, 170, (const uint8_t *)"On Both Hands", FONT_1608, BLACK);
-  }
-  if (x == 9) {
-    Tft.lcd_display_string(20, 155, (const uint8_t *)"Between Your Little Fingers", FONT_1608, BLACK);
-    Tft.lcd_display_string(70, 170, (const uint8_t *)"On Both Hands", FONT_1608, BLACK);
-  }
+// /* @function results
+//  * @args: val - measurement in N, unit - 0 for N, other for lbf
+//  */
+// void Draw::result(int val, int unit, uint16_t colour) { // a displays number, unit switches btwn units
+//   Tft.lcd_display_string(50, 105 + 15, (const uint8_t *)"Force Produced is", FONT_1608, colour);
+//   if (unit == 0) {
+//     Tft.lcd_display_num(52, 120 + 15, val, MAX_NLENGTH, FONT_1608, colour);
+//     Tft.lcd_display_string(116, 135 + 15, (const uint8_t *)"N", FONT_1608, colour);
+//   }
+//   else
+//   {
+//     Tft.lcd_display_num(48, 120 + 15, val * 2.20462, MAX_NLENGTH, FONT_1608, colour);
+//     Tft.lcd_display_string(90, 135 + 15, (const uint8_t *)"lbf", FONT_1608, colour);
+//   }
+// }
+
+void Draw::sessionReading(String s, uint16_t colour)
+{
+  Tft.lcd_display_string(centerX(s.length()), 210, (uint8_t *)s.c_str(), FONT_1608, colour);
 }
 
-void Draw::ClrPinchArea(int x) {
-  if (x == 0) {
-    Tft.lcd_display_string(10, 155, (const uint8_t *)"Between Little & Ring Finger", FONT_1608, WHITE);
-    Tft.lcd_display_string(50, 170, (const uint8_t *)"On Your Left Hand", FONT_1608, WHITE);
-  }
-  if (x == 1) {
-    Tft.lcd_display_string(10, 155, (const uint8_t *)"Between Ring & Middle Finger", FONT_1608, WHITE);
-    Tft.lcd_display_string(50, 170, (const uint8_t *)"On Your Left Hand", FONT_1608, WHITE);
-  }
-  if (x == 2) {
-    Tft.lcd_display_string(0, 155, (const uint8_t *)"Between Middle & Index Finger", FONT_1608, WHITE);
-    Tft.lcd_display_string(50, 170, (const uint8_t *)"On Your Left Hand", FONT_1608, WHITE);
-  }
-  if (x == 3) {
-    Tft.lcd_display_string(10, 155, (const uint8_t *)"Between Index Finger & Thumb", FONT_1608, WHITE);
-    Tft.lcd_display_string(50, 170, (const uint8_t *)"On Your Left Hand", FONT_1608, WHITE);
-  }
-  if (x == 4) {
-    Tft.lcd_display_string(10, 155, (const uint8_t *)"Between Thumb & Index Finger", FONT_1608, WHITE);
-    Tft.lcd_display_string(50, 170, (const uint8_t *)"On Your Right Hand", FONT_1608, WHITE);
-  }
-  if (x == 5) {
-    Tft.lcd_display_string(0, 155, (const uint8_t *)"Between Index & Middle Finger", FONT_1608, WHITE);
-    Tft.lcd_display_string(50, 170, (const uint8_t *)"On Your Right Hand", FONT_1608, WHITE);
-  }
-  if (x == 6) {
-    Tft.lcd_display_string(10, 155, (const uint8_t *)"Between Middle & Ring Finger", FONT_1608, WHITE);
-    Tft.lcd_display_string(50, 170, (const uint8_t *)"On Your Right Hand", FONT_1608, WHITE);
-  }
-  if (x == 7) {
-    Tft.lcd_display_string(10, 155, (const uint8_t *)"Between Ring & Little Finger", FONT_1608, WHITE);
-    Tft.lcd_display_string(50, 170, (const uint8_t *)"On Your Right Hand", FONT_1608, WHITE);
-  }
-  if (x == 8) {
-    Tft.lcd_display_string(30, 155, (const uint8_t *)"Between Your Thumbs", FONT_1608, WHITE);
-    Tft.lcd_display_string(70, 170, (const uint8_t *)"On Both Hands", FONT_1608, WHITE);
-  }
-  if (x == 9) {
-    Tft.lcd_display_string(20, 155, (const uint8_t *)"Between Your Little Fingers", FONT_1608, WHITE);
-    Tft.lcd_display_string(70, 170, (const uint8_t *)"On Both Hands", FONT_1608, WHITE);
-  }
+void Draw::probe(int b, uint16_t colour) {
+  Tft.lcd_display_string(50, 105 + 15, (const uint8_t *)"Probe reading is", FONT_1608, colour);
+  Tft.lcd_display_num(48, 120 + 15, b, MAX_NLENGTH, FONT_1608, colour);
 }
 
-void Draw::DispResult(int a, int u) { // a displays number, u switches btwn units
-  Tft.lcd_display_string(50, 105 + 15, (const uint8_t *)"Force Produced is", FONT_1608, BLACK);
-  if (u == 0) {
-    Tft.lcd_display_num(52, 120 + 15, a, MAX_NLENGTH, FONT_1608, BLACK);
-    Tft.lcd_display_string(116, 135 + 15, (const uint8_t *)"N", FONT_1608, BLACK);
-  }
-  else
-  {
-    Tft.lcd_display_num(48, 120 + 15, a * 2.20462, MAX_NLENGTH, FONT_1608, BLACK);
-    Tft.lcd_display_string(90, 135 + 15, (const uint8_t *)"lbf", FONT_1608, BLACK);
-  }
+// void Draw::startTone() {
+//   tone(15, 1480, 500);// pin, melody, duration
+//   noTone(15);
+// }
+
+// void Draw::endTone() {
+//   tone(15, 1740, 500);// pin, melody, duration
+//   noTone(15);
+// }
+
+int Draw::centerX(int len)
+{
+  // 240 pix wide
+  // 120 / half
+  // 8 pix / char
+  // half of string on left
+  return 240/2 - (8*len)/2;
 }
 
-void Draw::ClrResult(int a, int u) { // a displays number, u switches btwn units
-  Tft.lcd_display_string(50, 105 + 15, (const uint8_t *)"Force Produced is", FONT_1608, WHITE);
-  if (u == 0) {
-    Tft.lcd_display_num(52, 120 + 15, a, MAX_NLENGTH, FONT_1608, WHITE);
-    Tft.lcd_display_string(116, 135 + 15, (const uint8_t *)"N", FONT_1608, WHITE);
-  }
-  else {
-    Tft.lcd_display_num(48, 120 + 15, a * 2.20462, MAX_NLENGTH, FONT_1608, WHITE);
-    Tft.lcd_display_string(90, 135 + 15, (const uint8_t *)"lbf", FONT_1608, WHITE);
-  }
+void Draw::centerStr(int y, const char *str, uint16_t colour)
+{
+  Tft.lcd_display_string(centerX(strlen(str)), y, (const uint8_t*)str, FONT_1608, colour);
 }
-
-void Draw::DispProbe(int b) {
-  Tft.lcd_display_string(50, 105 + 15, (const uint8_t *)"Probe reading is", FONT_1608, BLACK);
-  Tft.lcd_display_num(48, 120 + 15, b, MAX_NLENGTH, FONT_1608, BLACK);
-}
-
-void Draw::ClrProbe(int b) {
-  Tft.lcd_display_string(50, 105 + 15, (const uint8_t *)"Probe reading is", FONT_1608, WHITE);
-  Tft.lcd_display_num(48, 120 + 15, b, MAX_NLENGTH, FONT_1608, WHITE);
-}
-void Draw::StartTone() {
-  tone(15, 1480, 500);// pin, melody, duration
-  noTone(15);
-}
-void Draw::EndTone() {
-  tone(15, 1740, 500);// pin, melody, duration
-  noTone(15);
-}
-
-//{
-//  Tft.lcd_display_string(80,  75, (const uint8_t *)"Menu", FONT_1608, colour);
-//  Tft.lcd_display_string(25,  90, (const uint8_t *)"------------------------", FONT_1608, colour);
-//  Tft.lcd_display_string(35, 105, (const uint8_t *)"1. New Session", FONT_1608, colour);
-//  Tft.lcd_display_string(35, 120, (const uint8_t *)"2. Session History", FONT_1608, colour);
-//  Tft.lcd_display_string(35, 135, (const uint8_t *)"3. New Patient", FONT_1608, colour);
-//  Tft.lcd_display_string(35, 150, (const uint8_t *)"4. Probe Calibration", FONT_1608, colour);
-//  Tft.lcd_display_string(35, 165, (const uint8_t *)"5. Bluetooth Streamer", FONT_1608, colour);
-//  Tft.lcd_display_string(25, 180, (const uint8_t *)"------------------------", FONT_1608, colour);
-//}
-
