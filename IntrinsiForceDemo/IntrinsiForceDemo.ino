@@ -21,7 +21,7 @@ unsigned int probePin = A9;
 unsigned int buzzerPin = 15;
 #define SAMP_LEN 300
 float forceData[SAMP_LEN];
-int forceindex = 0;
+// int forceindex = 0;
 // unsigned int forceSum = 0;
 // float forceAvg = 0;
 // float forcePk = 0;
@@ -212,7 +212,7 @@ void loop()
       }
 
       // Save data at end of recording
-      if (page == SESSION && subPage == 9 && act == NEXT)
+      if (page == MAIN && lastPage == SESSION && act == NEXT)
       {
         // If patient does not exist create them
         if (!tm.patientExists(id));
@@ -255,7 +255,7 @@ void loop()
           reading = (-0.3045+sqrt(pow(0.3045,2)+4*0.5169*reading))/(2*0.5169);
 
           // Put individual reading in array
-          forceData[forceindex] = reading;
+          forceData[forceIdx] = reading;
 
           // Sum calculated for average later
           forceSum = forceSum + reading;

@@ -72,21 +72,20 @@ void TransferManager::respondToRequest(bool busy)
           {
             break;
           }
-          // Don't list header
-          if ((header_name+ext).compareTo(file.name()) == 0)
-          {
-            continue;
-          }
           if (!file.isDirectory())
-          {
-            if (!first)
+          { 
+            // Don't list header
+            if ((header_name+ext).compareTo(file.name()) != 0)
             {
-              Serial.print('-');
+              if (!first)
+              {
+                Serial.print('-');
+              }
               first = false;
+              String fname = String(file.name());
+              int dotIdx = fname.indexOf('.');
+              Serial.print(fname.substring(0, dotIdx));
             }
-            String fname = String(file.name());
-            int dotIdx = fname.indexOf('.');
-            Serial.print(fname.substring(0, dotIdx));
           }
         }
         // End of this patient's sessions
@@ -325,7 +324,7 @@ bool TransferManager::writeSession(String ver, String patientId, String timestam
       file.print(i);
       file.print(',');
       bool first = true;
-      for (int j = 1; j < readingsLen; j++)
+      for (int j = 0; j < readingsLen; j++)
       {
         if (!first)
           file.print(',');
