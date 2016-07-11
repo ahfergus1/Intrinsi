@@ -314,6 +314,8 @@ bool TransferManager::writeSession(String ver, String patientId, String timestam
   if (file)
   {
     file.println(ver);
+    file.print("ID,");
+    file.println(sessionId);
     file.print("Time Stamp,");
     file.println(timestamp);
     file.print("Frequency [Hz],");

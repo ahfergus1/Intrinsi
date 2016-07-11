@@ -49,7 +49,8 @@ const int BUFFER_LENGTH = SAMP_LEN;
 float readings [SETS * BUFFER_LENGTH];
 String ver = "v0.2";
 String id = "00001234";
-String date = "040516";
+// "MM-dd-yyyy HH-mm-ss"
+String date = "07-11-2016 18-30-00"; 
 String uname = "Jake Tryon";
 float freq = 1.0/(float(Ts)/1000.0);
 
